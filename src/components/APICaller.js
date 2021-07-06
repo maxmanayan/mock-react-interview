@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import UserAndPic from './UserAndPic'
 
 const APICaller = () => {
-  const [ data, setData ] = useState(null)
+  const [ data, setData ] = useState([])
 
   useEffect(() => {
     getData()
@@ -12,7 +12,7 @@ const APICaller = () => {
   const getData = async () => {
     try {
       let res = await axios.get('https://randomuser.me/api')
-      setData(res.data.results)
+      setData([...data, res.data.results[0]])
     } catch (error) {
       console.log(error)
     }
@@ -29,6 +29,7 @@ const APICaller = () => {
       <h1>APICaller</h1>
       {data && <span>{JSON.stringify(data, null, 2)}</span>}
       {data && getUser(data)}
+      <button onClick={getData}>Get More Users</button>
     </>
 
   )
